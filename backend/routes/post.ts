@@ -72,6 +72,18 @@ postRouter.put('/',async (c) => {
   })
 })
 
+postRouter.get('/bulk',async (c) => {
+  const prisma=new PrismaClient({
+    accelerateUrl : c.env.DATABASE_URL
+  }).$extends(withAccelerate())
+  const allPosts=await prisma.post.findMany({
+    where : {}
+  })
+  return c.json({
+    allPosts
+  })
+})
+
 postRouter.get('/:id',async (c) => {
   const prisma=new PrismaClient({
     accelerateUrl : c.env.DATABASE_URL
@@ -90,16 +102,6 @@ postRouter.get('/:id',async (c) => {
       msg : 'Error while fetching blog'
     })
   }
-})
-
-postRouter.get('/bulk',async (c) => {
-  const prisma=new PrismaClient({
-    accelerateUrl : c.env.DATABASE_URL
-  }).$extends(withAccelerate())
-  const allPosts=await prisma.post.findMany()
-  return c.json({
-    allPosts
-  })
 })
 
 export default postRouter
