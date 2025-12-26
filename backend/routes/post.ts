@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Context, Hono } from "hono";
 import { verify } from "hono/jwt";
+import { createPostInput , updatePostInput } from "@varunthisside/inkwell-common";
 
 const postRouter = new Hono<{
   Bindings : {
@@ -35,11 +36,19 @@ postRouter.use('/*', async (c : Context , next) => {
 })
 
 postRouter.post('/',async (c) => {
+  const body=await c.req.json()
+  const validatedPayload=createPostInput.safeParse(body)
+  if(!validatedPayload.success){
+    c.status(411)
+    return c.json({
+      error : validatedPayload.error.message,
+      msg : 'Wrong Input'
+    })
+  }
   const prisma = new PrismaClient({
     accelerateUrl : c.env.DATABASE_URL
   }).$extends(withAccelerate())
   const userId=c.get('userId')
-  const body=await c.req.json()
   const post=await prisma.post.create({
     data : {
       title : body.title,
@@ -54,10 +63,18 @@ postRouter.post('/',async (c) => {
 })
 
 postRouter.put('/',async (c) => {
+  const body=await c.req.json()
+  const validatedPayload=updatePostInput.safeParse(body)
+  if(!validatedPayload.success){
+    c.status(411)
+    return c.json({
+      error : validatedPayload.error.message,
+      msg : 'Wrong Input'
+    })
+  }
   const prisma=new PrismaClient({
     accelerateUrl : c.env.DATABASE_URL
   }).$extends(withAccelerate())
-  const body=await c.req.json()
   await prisma.post.update({
     where : {
       id : body.id
