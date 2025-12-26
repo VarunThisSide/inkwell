@@ -9,7 +9,7 @@
   "dependencies": {
     "@prisma/client": "^7.2.0",
     "@prisma/extension-accelerate": "^3.0.1",
-    "@varunthisside/inkwell-common": "^1.0.1",
+    "@varunthisside/inkwell-common": "^1.0.3",
     "dotenv": "^17.2.3",
     "hono": "^4.11.1",
     "prisma": "^7.2.0"
