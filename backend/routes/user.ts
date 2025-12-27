@@ -24,6 +24,19 @@ userRouter.post('/signup', async (c) => {
   const prisma = new PrismaClient({
     accelerateUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate())
+
+  const alreadyExists=await prisma.user.findUnique({
+    where : {
+      email : body.email
+    }
+  })
+  if(alreadyExists){
+    c.status(411)
+    return c.json({
+      msg : 'User already exists with this email'
+    })
+  }
+
   const user = await prisma.user.create({
     data: {
       email: body.email,

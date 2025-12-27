@@ -5,3 +5,5 @@
 * jwt for authentication
 * IMPROVEMENT : pagination is left to be added in route /post/bulk
 * published commonly used TS types in npm so that I can use it to both frontend and backend
+* used axios to fecth api from backend
+* used toastify for notifications
