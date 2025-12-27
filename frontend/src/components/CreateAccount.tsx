@@ -5,21 +5,28 @@ import type { SignupInput } from "@varunthisside/inkwell-common"
 import axios from "axios"
 import { BACKEND_URL } from "../config"
 import { ToastContainer , toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
+import { useState } from "react"
+import { MutatingDots } from "react-loader-spinner"
 
 export const CreateAccount = () => {
   const {
   register,
   handleSubmit,
   } = useForm<SignupInput>()
-
+  const navigate=useNavigate()
+  const [loading, setLoading]=useState(false)
   const onSubmit : SubmitHandler<SignupInput>=async (data)=>{
+    setLoading(true)
     try{
       const res=await axios.post(`${BACKEND_URL}/api/v1/user/signup`,data)
-      console.log(res)
       localStorage.setItem('token' , res.data.token)
       toast.success(res.data.msg)
+      navigate('/blogs')
     }catch(e : any){
       toast.error(e.response.data.msg)
+    }finally{
+      setLoading(false)
     }
   }
   return (
@@ -49,6 +56,9 @@ export const CreateAccount = () => {
         </div>
       </form>
       <ToastContainer/>
+      {loading && <div className="top-0 bottom-0 left-0 right-0 bg-[rgba(0,0,0,0.3)] flex justify-center items-center fixed z-50">
+        <MutatingDots color="#00FFFF" secondaryColor="#00FFFF"/>
+      </div>}
     </div>
   )
 }

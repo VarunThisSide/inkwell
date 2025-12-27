@@ -53,7 +53,8 @@ postRouter.post('/',async (c) => {
     data : {
       title : body.title,
       content : body.content,
-      authorId : userId
+      authorId : userId,
+      postDate : new Date()
     }
   })
   return c.json({
@@ -94,7 +95,13 @@ postRouter.get('/bulk',async (c) => {
     accelerateUrl : c.env.DATABASE_URL
   }).$extends(withAccelerate())
   const allPosts=await prisma.post.findMany({
-    where : {}
+    where : {},
+    select : {
+      author : true,
+      title : true,
+      content : true,
+      postDate : true
+    }
   })
   return c.json({
     allPosts

@@ -7,3 +7,5 @@
 * published commonly used TS types in npm so that I can use it to both frontend and backend
 * used axios to fecth api from backend
 * used toastify for notifications
+* used react-spinners for loading pause UI
+* used lucide-react for icons
