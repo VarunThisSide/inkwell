@@ -97,7 +97,12 @@ postRouter.get('/bulk',async (c) => {
   const allPosts=await prisma.post.findMany({
     where : {},
     select : {
-      author : true,
+      id : true,
+      author : {
+        select : {
+          name : true,
+        }
+      },
       title : true,
       content : true,
       postDate : true
@@ -117,9 +122,21 @@ postRouter.get('/:id',async (c) => {
     const post=await prisma.post.findUnique({
       where : {
         id : postId
+      },
+      select : {
+        title : true,
+        content : true,
+        postDate : true,
+        author : {
+          select : {
+            name : true,
+          }
+        }
       }
     })
-    return c.json(post)
+    return c.json({
+      post
+    })
   }catch(e){
     c.status(411)
     return c.json({

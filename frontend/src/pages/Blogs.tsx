@@ -4,13 +4,25 @@ import axios from "axios"
 import { BACKEND_URL } from "../config"
 import { useNavigate } from "react-router-dom"
 import { AppBar } from "../components/AppBar"
+import { MutatingDots } from "react-loader-spinner"
 
+type Blog={
+  id : string
+  author : {
+    name : string
+  }
+  title : string
+  content : string
+  postDate : Date
+}
 export const Blogs = () => {
-  const [blogs, setBlogs] = useState([])
+  const [blogs, setBlogs] = useState<Blog[]>([])
+  const [loading, setLoading] = useState(false)
   const navigate=useNavigate()
   useEffect(() => {
     const f=async ()=>{
       try{
+        setLoading(true)
         const res=await axios.get(`${BACKEND_URL}/api/v1/post/bulk`,{
           headers : {
             Authorization : 'Bearer '+localStorage.getItem('token')
@@ -19,18 +31,24 @@ export const Blogs = () => {
         setBlogs(res.data.allPosts)
       }catch(e){
         navigate('/signin')
+      }finally{
+        setLoading(false)
       }
     }
     f()
   }, [])
-  
+  console.log(blogs)
   return (
     <>
       <AppBar authorName={localStorage.getItem('name') || 'User'}/>
-      {blogs.map((value : any, ind)=>{
-        <BlogCard authorName={value.author.authorName} postDate={value.postDate} title={value.title} content={value.content}/>
+      {blogs.map((value)=>{
+        return(
+          <BlogCard key={value.id} id={value.id} authorName={value.author.name} postDate={ value.postDate} title={value.title} content={value.content}/>
+        )
       })}
-      <BlogCard authorName="Varun" postDate={new Date()} title="My Story" content="Thats my storyy"/>
+      {loading && <div className="top-0 bottom-0 left-0 right-0 bg-[rgba(0,0,0,0.3)] flex justify-center items-center fixed z-50">
+        <MutatingDots color="#00FFFF" secondaryColor="#00FFFF"/>
+      </div>}
     </>
   )
 }

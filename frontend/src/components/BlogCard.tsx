@@ -1,17 +1,22 @@
-type BlogCardType = {
+import { useNavigate } from "react-router-dom"
+
+export type BlogType = {
+  id : string
   authorName: string
   postDate: Date
   title: string
   content: string
 }
 export const BlogCard = ({
+  id,
   authorName,
   postDate,
   title,
   content
-}: BlogCardType) => {
+}: BlogType) => {
+  const navigate=useNavigate()
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center cursor-pointer" onClick={()=>{navigate(`/blog/${id}`)}}>
       <div className="min-w-3/4 m-4 hover:bg-gray-100 transition-all px-4 py-2 rounded-4xl">
         <div className="flex items-center ">
           <div className="mx-1 flex justify-center items-center bg-amber-950 text-white p-2 rounded-full h-8 w-8">
@@ -21,7 +26,7 @@ export const BlogCard = ({
             {authorName} &middot;
           </div>
           <div className="text-gray-400 mx-1">
-            {postDate.toLocaleString('default' , {month : 'short'})+' '+postDate.getDate()+', '+postDate.getFullYear()}
+            {new Date(postDate).toLocaleString('default' , {month : 'short'})+' '+new Date(postDate).getDate()+', '+new Date(postDate).getFullYear()}
           </div>
         </div>
         <div className="text-3xl font-bold mb-3">
