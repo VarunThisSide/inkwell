@@ -28,7 +28,7 @@ export const CreatePost = () => {
               navigate(`/blog/${res.data.postId}`)
             }, 1000);
           }catch(e){
-            toast.error('Something went wrong!')
+            toast.error('How can your post be without title or content?')
           }finally{
             setLoading(false)
           }

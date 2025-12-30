@@ -6,17 +6,19 @@ import { useNavigate } from "react-router-dom"
 import { AppBar } from "../components/AppBar"
 import { MutatingDots } from "react-loader-spinner"
 
-type Blog={
+export type BlogType={
   id : string
   author : {
     name : string
+    id : string
   }
   title : string
   content : string
   postDate : Date
 }
 export const Blogs = () => {
-  const [blogs, setBlogs] = useState<Blog[]>([])
+  const [blogs, setBlogs] = useState<BlogType[]>([])
+  const [user, setUser] = useState<{name : string , id : string}>()
   const [loading, setLoading] = useState(false)
   const navigate=useNavigate()
   useEffect(() => {
@@ -29,6 +31,7 @@ export const Blogs = () => {
           }
         })
         setBlogs(res.data.allPosts)
+        setUser({name : res.data.user.name , id : res.data.user.id})
       }catch(e){
         navigate('/signin')
       }finally{
@@ -40,10 +43,10 @@ export const Blogs = () => {
   console.log(blogs)
   return (
     <div className="">
-      <AppBar authorName={localStorage.getItem('name') || 'User'} state="home"/>
+      <AppBar authorName={user?.name || ''} authorId={user?.id || ''}/>
       {blogs.map((value)=>{
         return(
-          <BlogCard key={value.id} id={value.id} authorName={value.author.name} postDate={ value.postDate} title={value.title} content={value.content}/>
+          <BlogCard key={value.id} authorId={value.author.id} id={value.id} authorName={value.author.name} postDate={ value.postDate} title={value.title} content={value.content}/>
         )
       })}
       {loading && <div className="top-0 bottom-0 left-0 right-0 bg-[rgba(0,0,0,0.3)] flex justify-center items-center fixed z-50">

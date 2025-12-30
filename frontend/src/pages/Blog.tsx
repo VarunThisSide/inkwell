@@ -5,24 +5,19 @@ import { BACKEND_URL } from "../config"
 import { MutatingDots } from "react-loader-spinner"
 import { ArrowLeftToLineIcon } from "lucide-react"
 import { useNavigate } from "react-router-dom"
+import type { BlogType } from "./Blogs"
 
-type FullBlogType={
-  author : {
-    name : string
-  }
-  title : string
-  content : string
-  postDate : Date
-}
 function Blog() {
   const {id}=useParams()
-  const [blog,setBlog]=useState<FullBlogType>({
+  const [blog,setBlog]=useState<BlogType>({
+    id : "",
     author: {
-    name: "Aman Gupta",
-  },
-  title: "The Future of Serverless Computing",
-  content: "Serverless computing is a cloud computing execution model in which the cloud provider allocates machine resources on demand, taking care of the servers on behalf of their customers. This allows developers to focus on writing code rather than managing infrastructure...",
-  postDate: new Date("2025-12-29T10:00:00Z"),
+      name: "",
+      id : ""
+    },
+    title: "",
+    content: "",
+    postDate: new Date("2025-12-29T10:00:00Z"),
   })
   const [loading, setLoading] = useState(true)
   const navigate=useNavigate()
@@ -67,7 +62,7 @@ function Blog() {
           <div className="mr-1 flex justify-center items-center bg-amber-950 text-white p-2 rounded-full h-8 w-8">
             {blog?.author.name.charAt(0).toUpperCase()}
           </div>
-          <div className="text-xl mx-2 font-bold">
+          <div onClick={()=>{navigate(`/authorposts/${blog.author.id}`)}} className="cursor-pointer text-xl mx-2 font-bold hover:underline">
             {blog?.author.name}
           </div>
         </div>

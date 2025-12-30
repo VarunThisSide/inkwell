@@ -101,6 +101,7 @@ postRouter.get('/bulk',async (c) => {
       author : {
         select : {
           name : true,
+          id : true
         }
       },
       title : true,
@@ -108,8 +109,19 @@ postRouter.get('/bulk',async (c) => {
       postDate : true
     }
   })
+  const userId=c.get('userId')
+  const user=await prisma.user.findUnique({
+    where : {
+      id : userId
+    },
+    select : {
+      name : true,
+      id : true
+    }
+  })
   return c.json({
-    allPosts
+    allPosts,
+    user
   })
 })
 
@@ -124,12 +136,14 @@ postRouter.get('/:id',async (c) => {
         id : postId
       },
       select : {
+        id : true,
         title : true,
         content : true,
         postDate : true,
         author : {
           select : {
             name : true,
+            id : true
           }
         }
       }

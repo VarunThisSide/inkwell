@@ -6,13 +6,15 @@ export type BlogType = {
   postDate: Date
   title: string
   content: string
+  authorId : string
 }
 export const BlogCard = ({
   id,
   authorName,
   postDate,
   title,
-  content
+  content,
+  authorId
 }: BlogType) => {
   const navigate=useNavigate()
   return (
@@ -22,7 +24,9 @@ export const BlogCard = ({
           <div className="mx-1 flex justify-center items-center bg-amber-950 text-white p-2 rounded-full h-8 w-8">
             {authorName.charAt(0).toUpperCase()}
           </div>
-          <div>
+          <div onClick={(e)=>{
+            e.stopPropagation()
+            navigate(`/authorposts/${authorId}`)}} className="hover:underline">
             {authorName} &middot;
           </div>
           <div className="text-gray-400 mx-1">
