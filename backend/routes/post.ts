@@ -63,7 +63,7 @@ postRouter.post('/',async (c) => {
   })
 })
 
-postRouter.put('/',async (c) => {
+postRouter.put('/:id',async (c) => {
   const body=await c.req.json()
   const validatedPayload=updatePostInput.safeParse(body)
   if(!validatedPayload.success){
@@ -76,9 +76,10 @@ postRouter.put('/',async (c) => {
   const prisma=new PrismaClient({
     accelerateUrl : c.env.DATABASE_URL
   }).$extends(withAccelerate())
+  const postId=c.req.param('id')
   await prisma.post.update({
     where : {
-      id : body.id
+      id : postId
     },
     data : {
       title : body.title,
@@ -130,6 +131,7 @@ postRouter.get('/:id',async (c) => {
     accelerateUrl : c.env.DATABASE_URL
   }).$extends(withAccelerate())
   const postId=c.req.param('id')
+  const userId=c.get('userId')
   try{
     const post=await prisma.post.findUnique({
       where : {
@@ -149,7 +151,8 @@ postRouter.get('/:id',async (c) => {
       }
     })
     return c.json({
-      post
+      post,
+      userId
     })
   }catch(e){
     c.status(411)

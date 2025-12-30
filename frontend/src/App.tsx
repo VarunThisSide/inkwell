@@ -4,7 +4,7 @@ import Signup from './pages/Signup'
 import Signin from './pages/Signin'
 import Blog from './pages/Blog'
 import { Blogs } from './pages/Blogs'
-import { CreatePost } from './pages/CreatePost'
+import { CreateEditPost } from './pages/CreateEditPost'
 import { AuthorPosts } from './pages/AuthorPosts'
 
 function App() {
@@ -17,7 +17,8 @@ function App() {
           <Route path='/blogs' element={<Blogs/>}/>
           <Route path='/' element={<Blogs/>}/>
           <Route path='/blog/:id' element={<Blog/>}/>
-          <Route path='/createpost' element={<CreatePost/>}/>
+          <Route path='/createpost' element={<CreateEditPost type='create'/>}/>
+          <Route path='/editpost/:id' element={<CreateEditPost type='edit'/>}/>
           <Route path='/authorposts/:id' element={<AuthorPosts/>}/>
         </Routes>
       </BrowserRouter>

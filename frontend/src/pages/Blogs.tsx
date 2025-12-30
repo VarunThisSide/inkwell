@@ -40,7 +40,6 @@ export const Blogs = () => {
     }
     f()
   }, [])
-  console.log(blogs)
   return (
     <div className="">
       <AppBar authorName={user?.name || ''} authorId={user?.id || ''}/>

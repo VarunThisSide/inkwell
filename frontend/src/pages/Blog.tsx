@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom"
 import axios from "axios"
 import { BACKEND_URL } from "../config"
 import { MutatingDots } from "react-loader-spinner"
-import { ArrowLeftToLineIcon } from "lucide-react"
+import { ArrowLeftToLineIcon, PencilLine } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import type { BlogType } from "./Blogs"
 
@@ -20,6 +20,7 @@ function Blog() {
     postDate: new Date("2025-12-29T10:00:00Z"),
   })
   const [loading, setLoading] = useState(true)
+  const [userId,setUserId]=useState()
   const navigate=useNavigate()
   useEffect(()=>{
     const f=async ()=>{
@@ -29,9 +30,9 @@ function Blog() {
             Authorization : 'Bearer '+localStorage.getItem('token')
           }
         })
-        console.log(res.data)
         setBlog(res.data.post)
         setLoading(false)
+        setUserId(res.data.userId)
       }catch(e){
         
       }
@@ -40,7 +41,13 @@ function Blog() {
   },[])
   return (
     <>
-    <ArrowLeftToLineIcon onClick={()=>{navigate('/blogs')}} size={50} className="mx-[1vw] my-2 cursor-pointer hover:scale-75 transition"/>
+    <div className="flex justify-between items-center px-[2vw]">
+      <ArrowLeftToLineIcon onClick={()=>{navigate('/blogs')}} size={50} className="mx-[1vw] my-2 cursor-pointer hover:scale-75 transition"/>
+      {userId===blog.author.id && <div onClick={()=>{navigate(`/editpost/${blog.id}`)}} className="flex justify-center items-center gap-2 transition cursor-pointer hover:drop-shadow-xl mx-2 bg-green-600 text-white px-4 py-1 rounded-full">
+        <PencilLine size={20}/>
+        Edit
+      </div>}
+    </div>
     <div className="flex px-[5vw] py-8">
       <div className="w-[70%] flex flex-col">
         <div className="font-bold md:text-7xl text-3xl my-2">
