@@ -31,7 +31,10 @@ export const Blogs = () => {
             Authorization : 'Bearer '+localStorage.getItem('token')
           }
         })
-        setBlogs(res.data.allPosts)
+        const sortedBlogs=res.data.allPosts.sort(
+          (a : BlogType ,b : BlogType)=> new Date(b.postDate).getTime() - new Date(a.postDate).getTime()
+        )
+        setBlogs(sortedBlogs)
         setUser({name : res.data.user.name , id : res.data.user.id})
       }catch(e){
         navigate('/signin')
