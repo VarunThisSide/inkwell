@@ -9,4 +9,4 @@
 * used toastify for notifications
 * used react-spinners for loading pause UI
 * used lucide-react for icons
-* IMPROVEMENT : use recoil or redux basically, a state management for storing allposts
+* IMPROVEMENT : use recoil/redux/zustand basically, a state management for storing allposts

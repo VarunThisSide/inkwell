@@ -39,16 +39,16 @@ export const Blogs = () => {
   }, [])
   console.log(blogs)
   return (
-    <>
-      <AppBar authorName={localStorage.getItem('name') || 'User'}/>
+    <div className="">
+      <AppBar authorName={localStorage.getItem('name') || 'User'} state="home"/>
       {blogs.map((value)=>{
         return(
           <BlogCard key={value.id} id={value.id} authorName={value.author.name} postDate={ value.postDate} title={value.title} content={value.content}/>
         )
       })}
       {loading && <div className="top-0 bottom-0 left-0 right-0 bg-[rgba(0,0,0,0.3)] flex justify-center items-center fixed z-50">
-        <MutatingDots color="#00FFFF" secondaryColor="#00FFFF"/>
+        <MutatingDots color="#00a63e" secondaryColor="#00a63e"/>
       </div>}
-    </>
+    </div>
   )
 }

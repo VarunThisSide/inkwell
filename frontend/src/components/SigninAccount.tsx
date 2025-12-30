@@ -54,7 +54,7 @@ export const SigninAccount = () => {
       </form>
       <ToastContainer/>
       {loading && <div className="top-0 bottom-0 left-0 right-0 bg-[rgba(0,0,0,0.3)] flex justify-center items-center fixed z-50">
-        <MutatingDots color="#00FFFF" secondaryColor="#00FFFF"/>
+        <MutatingDots color="#00a63e" secondaryColor="#00a63e"/>
       </div>}
     </div>
   )

@@ -4,6 +4,7 @@ import Signup from './pages/Signup'
 import Signin from './pages/Signin'
 import Blog from './pages/Blog'
 import { Blogs } from './pages/Blogs'
+import { CreatePost } from './pages/CreatePost'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path='/blogs' element={<Blogs/>}/>
           <Route path='/' element={<Blogs/>}/>
           <Route path='/blog/:id' element={<Blog/>}/>
+          <Route path='/createpost' element={<CreatePost/>}/>
         </Routes>
       </BrowserRouter>
     </>
