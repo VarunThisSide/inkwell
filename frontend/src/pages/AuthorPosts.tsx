@@ -22,7 +22,10 @@ export const AuthorPosts = () => {
           Authorization : 'Bearer '+localStorage.getItem('token')
         }
       })
-      setAuthorPosts(res.data.authorPosts)
+      const sortedAuthorPosts=res.data.authorPosts.sort(
+        (a : BlogType ,b : BlogType)=> new Date(b.postDate).getTime() - new Date(a.postDate).getTime()
+      )
+      setAuthorPosts(sortedAuthorPosts)
       setLoading(false)
     }
     f()
