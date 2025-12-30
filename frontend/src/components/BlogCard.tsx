@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import Skeleton from "react-loading-skeleton"
 
 export type BlogType = {
   id : string

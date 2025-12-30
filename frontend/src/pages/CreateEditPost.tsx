@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import { ArrowLeftToLineIcon } from "lucide-react"
 import { useNavigate, useParams } from "react-router-dom"
-import { MutatingDots } from "react-loader-spinner"
 import axios from "axios"
 import { BACKEND_URL } from "../config"
 import { ToastContainer , toast } from "react-toastify"
+import { BlogEditorSkeleton } from "../components/BlogEditorSkeleton"
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export const CreateEditPost = ({type} : { type : 'create' | 'edit' }) => {
   const navigate=useNavigate()
@@ -74,12 +75,9 @@ export const CreateEditPost = ({type} : { type : 'create' | 'edit' }) => {
           Publish
         </div>
       </div>
-      <div className="px-[15vw]">
+      {loading? <BlogEditorSkeleton/> : <div className="px-[15vw]">
         <input placeholder="Title" onChange={(e)=>{setTitle(e.target.value)}} value={title} className="my-1 block text-6xl focus:outline-none  min-w-2/3 w-full"/>
-        <textarea placeholder="Time to tell a story . . ." onChange={(e)=>{setContent(e.target.value)}} value={content} className="my-1 text-gray-700 text-xl focus:outline-none w-full p-3 border-0 hover:border border-gray-400 rounded-2xl"/>
-      </div>
-      {loading && <div className="top-0 bottom-0 left-0 right-0 bg-[rgba(0,0,0,0.3)] flex justify-center items-center fixed z-50">
-        <MutatingDots color="#00a63e" secondaryColor="#00a63e"/>
+        <textarea placeholder="Time to tell a story . . ." onChange={(e)=>{setContent(e.target.value)}} value={content} className="min-h-[200vh] my-1 text-gray-700 text-xl focus:outline-none w-full p-3 border-0 rounded-2xl"/>
       </div>}
       <ToastContainer/>
     </>

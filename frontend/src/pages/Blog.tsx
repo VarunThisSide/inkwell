@@ -2,10 +2,11 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import axios from "axios"
 import { BACKEND_URL } from "../config"
-import { MutatingDots } from "react-loader-spinner"
 import { ArrowLeftToLineIcon, PencilLine } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import type { BlogType } from "./Blogs"
+import { BlogPageSkeleton } from "../components/BlogPageSkeleton"
+import 'react-loading-skeleton/dist/skeleton.css'
 
 function Blog() {
   const {id}=useParams()
@@ -19,22 +20,24 @@ function Blog() {
     content: "",
     postDate: new Date("2025-12-29T10:00:00Z"),
   })
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [userId,setUserId]=useState()
   const navigate=useNavigate()
   useEffect(()=>{
     const f=async ()=>{
       try{
+        setLoading(true)
         const res=await axios.get(`${BACKEND_URL}/api/v1/post/${id}`,{
           headers : {
             Authorization : 'Bearer '+localStorage.getItem('token')
           }
         })
         setBlog(res.data.post)
-        setLoading(false)
         setUserId(res.data.userId)
       }catch(e){
         
+      }finally{
+        setLoading(false)
       }
     }
     f()
@@ -48,7 +51,7 @@ function Blog() {
         Edit
       </div>}
     </div>
-    <div className="flex px-[5vw] py-8">
+    {loading? <BlogPageSkeleton/> : <div className="flex px-[5vw] py-8">
       <div className="w-[70%] flex flex-col">
         <div className="font-bold md:text-7xl text-3xl my-2">
           {blog?.title}
@@ -74,9 +77,6 @@ function Blog() {
           </div>
         </div>
       </div>
-    </div>
-    {loading && <div className="top-0 bottom-0 left-0 right-0 bg-[rgba(0,0,0,0.3)] flex justify-center items-center fixed z-50">
-      <MutatingDots color="#00a63e" secondaryColor="#00a63e"/>
     </div>}
     </>
   )

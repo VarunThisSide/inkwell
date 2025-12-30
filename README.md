@@ -10,3 +10,4 @@
 * used react-spinners for loading pause UI
 * used lucide-react for icons
 * IMPROVEMENT : use recoil/redux/zustand basically, a state management for storing allposts
+* added react-loading-skeleton for skeleton loading for better UI

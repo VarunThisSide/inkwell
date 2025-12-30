@@ -4,7 +4,8 @@ import axios from "axios"
 import { BACKEND_URL } from "../config"
 import { useNavigate } from "react-router-dom"
 import { AppBar } from "../components/AppBar"
-import { MutatingDots } from "react-loader-spinner"
+import { BlogCardSkeleton } from "../components/BlogCardSkeleton"
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export type BlogType={
   id : string
@@ -48,9 +49,11 @@ export const Blogs = () => {
           <BlogCard key={value.id} authorId={value.author.id} id={value.id} authorName={value.author.name} postDate={ value.postDate} title={value.title} content={value.content}/>
         )
       })}
-      {loading && <div className="top-0 bottom-0 left-0 right-0 bg-[rgba(0,0,0,0.3)] flex justify-center items-center fixed z-50">
-        <MutatingDots color="#00a63e" secondaryColor="#00a63e"/>
-      </div>}
+      {loading && <>
+        <BlogCardSkeleton/>
+        <BlogCardSkeleton/>
+        <BlogCardSkeleton/>
+      </>}
     </div>
   )
 }
